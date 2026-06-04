@@ -154,4 +154,94 @@ async function invia(e) {
 }
 </script>
 </body>
+</html>      <h2>Lead inviato!</h2>
+      <p>Leone Consulting ha ricevuto le informazioni.<br>Grazie per la segnalazione!</p>
+    </div>
+  </div>
+</div>
+<script>
+const SUPA_URL = 'https://uljdbdbkiulbcquuhfwd.supabase.co'
+const SUPA_KEY = 'sb_publishable_f2I0NBiYOi_1aWm5ACybhA_gFYsWpAB'
+
+const params = new URLSearchParams(window.location.search)
+const pid = params.get('pid') || ''
+const pnome = decodeURIComponent(params.get('pnome') || 'Procacciatore')
+
+document.getElementById('agente-box').textContent = 'Procacciatore: ' + pnome
+
+async function invia(e) {
+  e.preventDefault()
+  const btn = document.getElementById('btn-invia')
+  const errEl = document.getElementById('err-msg')
+  errEl.style.display = 'none'
+  btn.textContent = 'Invio in corso...'
+  btn.disabled = true
+
+  const form = e.target
+  const ora = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'})
+  const data = new Date().toLocaleDateString('it-IT')
+
+  try {
+    // Trova indice procacciatore
+    const rProcs = await fetch(`${SUPA_URL}/rest/v1/procacciatori?select=id`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    })
+    const procs = await rProcs.json()
+    const idx = procs.findIndex(p => p.id === pid)
+
+    // Salva lead su Supabase
+    const res = await fetch(`${SUPA_URL}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        data: {
+          pidx: idx >= 0 ? idx : 0,
+          procId: pid,
+          nome: form.nome.value.trim(),
+          az: form.azienda.value.trim(),
+          tel: form.tel.value.trim(),
+          email: form.email.value.trim(),
+          cat: form.interesse.value,
+          stato: 'Nuovo',
+          note: form.note.value.trim(),
+          data: data,
+          ora: ora,
+          daProcacciatore: true,
+          pnome: pnome
+        }
+      })
+    })
+
+    if (!res.ok) throw new Error('Errore ' + res.status)
+
+    // Invia notifica email a Leone Consulting via Edge Function
+    fetch(`${SUPA_URL}/functions/v1/notify-lead`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pnome: pnome,
+        nome: form.nome.value.trim(),
+        tel: form.tel.value.trim(),
+        email: form.email.value.trim(),
+        interesse: form.interesse.value,
+        data: data, ora: ora
+      })
+    }).catch(() => {}) // Non bloccare se fallisce
+
+    document.getElementById('form-area').classList.add('hidden')
+    document.getElementById('success-area').classList.remove('hidden')
+
+  } catch (err) {
+    errEl.style.display = 'block'
+    btn.textContent = 'Invia lead'
+    btn.disabled = false
+  }
+}
+</script>
+</body>
 </html>
