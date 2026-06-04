@@ -9,7 +9,7 @@
 body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:#f5f5f0;min-height:100vh;padding:20px}
 .card{background:#fff;border-radius:12px;padding:28px;max-width:480px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,.10)}
 .logo{text-align:center;margin-bottom:24px}
-.logo h1{color:#185FA5;font-size:22px;font-weight:700;letter-spacing:-.3px}
+.logo h1{color:#185FA5;font-size:22px;font-weight:700}
 .logo p{color:#6b6b66;font-size:13px;margin-top:4px}
 .agent{background:#E6F1FB;border-radius:8px;padding:10px 14px;margin-bottom:20px;font-size:13px;color:#185FA5;font-weight:500}
 label{display:block;font-size:12px;color:#6b6b66;font-weight:500;margin-bottom:4px;margin-top:14px}
@@ -17,15 +17,13 @@ input,select,textarea{width:100%;padding:10px 12px;font-size:14px;border:1px sol
 input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,.12)}
 textarea{min-height:80px;resize:vertical}
 .req{color:#A32D2D}
-.btn{width:100%;margin-top:20px;padding:13px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-appearance:none}
+.btn{width:100%;margin-top:20px;padding:13px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
 .btn:active{background:#0C447C}
 .hidden{display:none}
 .success{text-align:center;padding:40px 20px}
-.success .icon{font-size:48px;margin-bottom:16px}
-.success h2{color:#3B6D11;font-size:20px;margin-bottom:8px}
-.success p{color:#6b6b66;font-size:14px;line-height:1.5}
+.success h2{color:#3B6D11;font-size:22px;margin-bottom:8px}
+.success p{color:#6b6b66;font-size:14px;line-height:1.6}
 .err{color:#A32D2D;font-size:12px;margin-top:8px;display:none;text-align:center;padding:8px;background:#FCEBEB;border-radius:6px}
-.loading{opacity:.6;pointer-events:none}
 </style>
 </head>
 <body>
@@ -34,23 +32,17 @@ textarea{min-height:80px;resize:vertical}
     <h1>Leone Consulting</h1>
     <p>di Leonardo Angelucci</p>
   </div>
-
   <div id="agente-box" class="agent">Caricamento...</div>
-
   <div id="form-area">
     <form id="lead-form" onsubmit="invia(event)">
       <label>Nome e cognome <span class="req">*</span></label>
       <input name="nome" type="text" placeholder="Mario Rossi" required autocomplete="name">
-
       <label>Telefono <span class="req">*</span></label>
       <input name="tel" type="tel" placeholder="+39 333 000000" required autocomplete="tel">
-
       <label>Email</label>
       <input name="email" type="email" placeholder="mario@email.com" autocomplete="email">
-
       <label>Azienda</label>
       <input name="azienda" type="text" placeholder="Nome azienda (opzionale)">
-
       <label>Interesse principale</label>
       <select name="interesse">
         <option value="">-- Seleziona --</option>
@@ -64,35 +56,28 @@ textarea{min-height:80px;resize:vertical}
         <option>Assicurazioni</option>
         <option>Altro</option>
       </select>
-
       <label>Note</label>
       <textarea name="note" placeholder="Informazioni aggiuntive sul cliente..."></textarea>
-
       <div class="err" id="err-msg">Errore nell'invio. Controlla la connessione e riprova.</div>
       <button type="submit" class="btn" id="btn-invia">Invia lead</button>
     </form>
   </div>
-
   <div id="success-area" class="hidden">
     <div class="success">
-      <div class="icon">&#10003;</div>
       <h2>Lead inviato!</h2>
-      <p>Leone Consulting ha ricevuto le informazioni del cliente.<br>Grazie!</p>
+      <p>Leone Consulting ha ricevuto le informazioni.<br>Grazie per la segnalazione!</p>
     </div>
   </div>
 </div>
-
 <script>
 const SUPA_URL = 'https://uljdbdbkiulbcquuhfwd.supabase.co'
 const SUPA_KEY = 'sb_publishable_f2I0NBiYOi_1aWm5ACybhA_gFYsWpAB'
 
-// Leggi parametri dall'URL
 const params = new URLSearchParams(window.location.search)
 const pid = params.get('pid') || ''
-const pnome = params.get('pnome') || 'Procacciatore'
+const pnome = decodeURIComponent(params.get('pnome') || 'Procacciatore')
 
-// Mostra nome procacciatore
-document.getElementById('agente-box').textContent = 'Procacciatore: ' + decodeURIComponent(pnome)
+document.getElementById('agente-box').textContent = 'Procacciatore: ' + pnome
 
 async function invia(e) {
   e.preventDefault()
@@ -106,37 +91,15 @@ async function invia(e) {
   const ora = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'})
   const data = new Date().toLocaleDateString('it-IT')
 
-  const payload = {
-    data: {
-      pidx: 0,
-      procId: pid,
-      nome: form.nome.value.trim(),
-      az: form.azienda.value.trim(),
-      tel: form.tel.value.trim(),
-      email: form.email.value.trim(),
-      cat: form.interesse.value,
-      stato: 'Nuovo',
-      note: form.note.value.trim(),
-      data: data,
-      ora: ora,
-      daProcacciatore: true,
-      pnome: decodeURIComponent(pnome)
-    }
-  }
-
   try {
-    // Prima cerca l'indice del procacciatore
+    // Trova indice procacciatore
     const rProcs = await fetch(`${SUPA_URL}/rest/v1/procacciatori?select=id`, {
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY
-      }
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
     })
     const procs = await rProcs.json()
     const idx = procs.findIndex(p => p.id === pid)
-    payload.data.pidx = idx >= 0 ? idx : 0
 
-    // Inserisce il lead
+    // Salva lead su Supabase
     const res = await fetch(`${SUPA_URL}/rest/v1/leads`, {
       method: 'POST',
       headers: {
@@ -145,10 +108,40 @@ async function invia(e) {
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        data: {
+          pidx: idx >= 0 ? idx : 0,
+          procId: pid,
+          nome: form.nome.value.trim(),
+          az: form.azienda.value.trim(),
+          tel: form.tel.value.trim(),
+          email: form.email.value.trim(),
+          cat: form.interesse.value,
+          stato: 'Nuovo',
+          note: form.note.value.trim(),
+          data: data,
+          ora: ora,
+          daProcacciatore: true,
+          pnome: pnome
+        }
+      })
     })
 
     if (!res.ok) throw new Error('Errore ' + res.status)
+
+    // Invia notifica email a Leone Consulting via Edge Function
+    fetch(`${SUPA_URL}/functions/v1/notify-lead`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pnome: pnome,
+        nome: form.nome.value.trim(),
+        tel: form.tel.value.trim(),
+        email: form.email.value.trim(),
+        interesse: form.interesse.value,
+        data: data, ora: ora
+      })
+    }).catch(() => {}) // Non bloccare se fallisce
 
     document.getElementById('form-area').classList.add('hidden')
     document.getElementById('success-area').classList.remove('hidden')
