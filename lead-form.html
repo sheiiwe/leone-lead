@@ -2,246 +2,234 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Inserisci Lead - Leone Consulting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Nuovo contatto · Leone Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:#f5f5f0;min-height:100vh;padding:20px}
-.card{background:#fff;border-radius:12px;padding:28px;max-width:480px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,.10)}
-.logo{text-align:center;margin-bottom:24px}
-.logo h1{color:#185FA5;font-size:22px;font-weight:700}
-.logo p{color:#6b6b66;font-size:13px;margin-top:4px}
-.agent{background:#E6F1FB;border-radius:8px;padding:10px 14px;margin-bottom:20px;font-size:13px;color:#185FA5;font-weight:500}
-label{display:block;font-size:12px;color:#6b6b66;font-weight:500;margin-bottom:4px;margin-top:14px}
-input,select,textarea{width:100%;padding:10px 12px;font-size:14px;border:1px solid #ddd;border-radius:8px;font-family:inherit;background:#fff;color:#1a1a18;-webkit-appearance:none}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,.12)}
-textarea{min-height:80px;resize:vertical}
-.req{color:#A32D2D}
-.btn{width:100%;margin-top:20px;padding:13px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
-.btn:active{background:#0C447C}
-.hidden{display:none}
-.success{text-align:center;padding:40px 20px}
-.success h2{color:#3B6D11;font-size:22px;margin-bottom:8px}
-.success p{color:#6b6b66;font-size:14px;line-height:1.6}
-.err{color:#A32D2D;font-size:12px;margin-top:8px;display:none;text-align:center;padding:8px;background:#FCEBEB;border-radius:6px}
+  :root{
+    --blue:#10406e; --blue2:#185FA5; --gold:#C9A24B; --gold-soft:#e7d6a8;
+    --ink:#15233a; --muted:#5d6b80; --line:#e3e7ee; --bg:#eef2f7; --card:#ffffff;
+    --ok:#1f7a4d; --err:#c0392b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.5;
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+  }
+  .wrap{max-width:520px; margin:0 auto; padding:0 16px 48px}
+  /* Header band */
+  .band{
+    background:linear-gradient(150deg,var(--blue) 0%, #0b2e50 100%);
+    margin:0 -16px 0; padding:34px 24px 30px; text-align:center; position:relative;
+  }
+  .band::after{content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .mono{
+    width:60px; height:60px; border-radius:50%; margin:0 auto 14px;
+    border:1.5px solid var(--gold-soft); display:flex; align-items:center; justify-content:center;
+    color:var(--gold); font-family:'Fraunces',serif; font-weight:600; font-size:24px; letter-spacing:1px;
+    background:rgba(255,255,255,.04);
+  }
+  .band h1{font-family:'Fraunces',serif; font-weight:600; color:#fff; margin:0; font-size:21px; letter-spacing:.2px}
+  .band .sub{color:#aac4dd; font-size:12px; margin-top:3px; letter-spacing:.3px}
+  /* Attribution chip */
+  .attr{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    margin:18px 0 16px; padding:13px 16px; display:flex; align-items:center; gap:11px;
+    box-shadow:0 1px 2px rgba(20,35,58,.04);
+  }
+  .attr .dot{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+    background:var(--blue); color:#fff; display:flex;align-items:center;justify-content:center;
+    font-weight:600;font-size:13px;font-family:'Fraunces',serif}
+  .attr .t1{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+  .attr .t2{font-size:14px;font-weight:600;color:var(--ink)}
+  .intro{font-size:13.5px;color:var(--muted);margin:0 2px 18px}
+  /* Card form */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:20px 18px 22px; box-shadow:0 2px 10px rgba(20,35,58,.05)}
+  label{display:block; font-size:12.5px; font-weight:600; color:var(--ink); margin:0 0 6px}
+  label .req{color:var(--gold); font-weight:600}
+  .field{margin-bottom:15px}
+  input,select,textarea{
+    width:100%; font:inherit; font-size:15px; color:var(--ink);
+    background:#fbfcfe; border:1px solid var(--line); border-radius:10px; padding:12px 13px;
+    transition:border-color .15s, box-shadow .15s; -webkit-appearance:none; appearance:none;
+  }
+  textarea{resize:vertical; min-height:74px}
+  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235d6b80' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; padding-right:36px}
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--blue2);
+    box-shadow:0 0 0 3px rgba(24,95,165,.12)}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .btn{
+    width:100%; margin-top:6px; padding:15px; border:none; border-radius:11px;
+    background:var(--blue); color:#fff; font-size:15.5px; font-weight:600; cursor:pointer;
+    letter-spacing:.2px; transition:background .15s, transform .05s;
+  }
+  .btn:hover{background:#0c365e}
+  .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.6; cursor:not-allowed}
+  .msg{margin-top:14px; padding:12px 14px; border-radius:10px; font-size:13px; display:none}
+  .msg.err{display:block; background:#fdecea; color:var(--err); border:1px solid #f5c6c0}
+  .foot{text-align:center; font-size:11px; color:var(--muted); margin-top:22px; letter-spacing:.2px}
+  /* Success state */
+  .done{display:none; text-align:center; padding:30px 18px}
+  .done.show{display:block}
+  .check{width:62px;height:62px;border-radius:50%;margin:0 auto 16px;
+    background:#e8f5ee;border:1.5px solid #bfe3cd;display:flex;align-items:center;justify-content:center}
+  .check svg{width:30px;height:30px}
+  .done h2{font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:0 0 6px;color:var(--ink)}
+  .done p{color:var(--muted);font-size:14px;margin:0 0 22px}
+  .btn-ghost{background:none;color:var(--blue2);border:1px solid var(--line);font-weight:600;
+    padding:12px;border-radius:11px;width:100%;cursor:pointer;font-size:14px}
+  .btn-ghost:hover{background:#f4f7fb}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">
+  <div class="band">
+    <div class="mono">LC</div>
     <h1>Leone Consulting</h1>
-    <p>di Leonardo Angelucci</p>
+    <div class="sub">di Leonardo Angelucci</div>
   </div>
-  <div id="agente-box" class="agent">Caricamento...</div>
-  <div id="form-area">
-    <form id="lead-form" onsubmit="invia(event)">
-      <label>Nome e cognome <span class="req">*</span></label>
-      <input name="nome" type="text" placeholder="Mario Rossi" required autocomplete="name">
-      <label>Telefono <span class="req">*</span></label>
-      <input name="tel" type="tel" placeholder="+39 333 000000" required autocomplete="tel">
-      <label>Email</label>
-      <input name="email" type="email" placeholder="mario@email.com" autocomplete="email">
-      <label>Azienda</label>
-      <input name="azienda" type="text" placeholder="Nome azienda (opzionale)">
-      <label>Interesse principale</label>
-      <select name="interesse">
-        <option value="">-- Seleziona --</option>
-        <option>Energia e Utenze</option>
-        <option>Telefonia e Internet</option>
-        <option>Corsi Scuola</option>
-        <option>Corsi Professionali</option>
-        <option>Certificazioni Linguistiche</option>
-        <option>Percorsi di Laurea</option>
-        <option>Sicurezza</option>
-        <option>Assicurazioni</option>
-        <option>Altro</option>
-      </select>
-      <label>Note</label>
-      <textarea name="note" placeholder="Informazioni aggiuntive sul cliente..."></textarea>
-      <div class="err" id="err-msg">Errore nell'invio. Controlla la connessione e riprova.</div>
-      <button type="submit" class="btn" id="btn-invia">Invia lead</button>
-    </form>
-  </div>
-  <div id="success-area" class="hidden">
-    <div class="success">
-      <h2>Lead inviato!</h2>
-      <p>Leone Consulting ha ricevuto le informazioni.<br>Grazie per la segnalazione!</p>
+
+  <div class="wrap">
+    <!-- FORM -->
+    <div id="form-view">
+      <div class="attr" id="attr-box" style="display:none">
+        <div class="dot" id="attr-ini">—</div>
+        <div>
+          <div class="t1">Segnalato da</div>
+          <div class="t2" id="attr-nome">—</div>
+        </div>
+      </div>
+
+      <p class="intro">Inserisci i dati del nuovo contatto. Arriverà subito a Leone Consulting per essere ricontattato.</p>
+
+      <div class="card">
+        <div class="field">
+          <label for="f-nome">Nome e cognome <span class="req">*</span></label>
+          <input id="f-nome" type="text" autocomplete="name" placeholder="Es. Mario Rossi">
+        </div>
+        <div class="field">
+          <label for="f-tel">Telefono <span class="req">*</span></label>
+          <input id="f-tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="Es. 333 1234567">
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" type="email" autocomplete="email" inputmode="email" placeholder="email@esempio.it">
+        </div>
+        <div class="field">
+          <label for="f-cat">Area di interesse <span class="req">*</span></label>
+          <select id="f-cat">
+            <option value="">— Seleziona —</option>
+            <option value="Energia (Luce e Gas)">Energia (Luce e Gas)</option>
+            <option value="Telefonia / Internet">Telefonia / Internet</option>
+            <option value="Assicurazioni">Assicurazioni</option>
+            <option value="Formazione / Certificazioni">Formazione / Certificazioni</option>
+            <option value="Altro">Altro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-az">Azienda <span style="color:var(--muted);font-weight:400">(se è un'attività)</span></label>
+          <input id="f-az" type="text" autocomplete="organization" placeholder="Ragione sociale, se applicabile">
+        </div>
+        <div class="field">
+          <label for="f-note">Note</label>
+          <textarea id="f-note" placeholder="Orari per ricontattare, esigenze, dettagli utili…"></textarea>
+        </div>
+
+        <button class="btn" id="btn-invia" onclick="inviaLead()">Invia contatto</button>
+        <div class="msg err" id="msg-err"></div>
+      </div>
+
+      <div class="foot">I dati saranno trattati nel rispetto del GDPR · Leone Consulting di Leonardo Angelucci · P.IVA 18231181001</div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="done" id="done-view">
+      <div class="check">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6" stroke="#1f7a4d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2>Contatto inviato!</h2>
+      <p id="done-sub">Grazie. Leone Consulting ricontatterà il contatto al più presto.</p>
+      <button class="btn-ghost" onclick="resetForm()">Inserisci un altro contatto</button>
     </div>
   </div>
-</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPA_URL = 'https://uljdbdbkiulbcquuhfwd.supabase.co'
-const SUPA_KEY = 'sb_publishable_f2I0NBiYOi_1aWm5ACybhA_gFYsWpAB'
+  const SUPA_URL = 'https://uljdbdbkiulbcquuhfwd.supabase.co';
+  const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsamRiZGJraXVsYmNxdXVoZndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1Nzk3NjcsImV4cCI6MjA5NjE1NTc2N30.TsTSIwUqawsT6M_pwUXjRutCSHToJdVfGF3FxqG3TUA';
+  const db = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-const params = new URLSearchParams(window.location.search)
-const pid = params.get('pid') || ''
-const pnome = decodeURIComponent(params.get('pnome') || 'Procacciatore')
-
-document.getElementById('agente-box').textContent = 'Procacciatore: ' + pnome
-
-async function invia(e) {
-  e.preventDefault()
-  const btn = document.getElementById('btn-invia')
-  const errEl = document.getElementById('err-msg')
-  errEl.style.display = 'none'
-  btn.textContent = 'Invio in corso...'
-  btn.disabled = true
-
-  const form = e.target
-  const ora = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'})
-  const data = new Date().toLocaleDateString('it-IT')
-
-  try {
-    // Trova indice procacciatore
-    const rProcs = await fetch(`${SUPA_URL}/rest/v1/procacciatori?select=id`, {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    })
-    const procs = await rProcs.json()
-    const idx = procs.findIndex(p => p.id === pid)
-
-    // Salva lead su Supabase
-    const res = await fetch(`${SUPA_URL}/rest/v1/leads`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({
-        data: {
-          pidx: idx >= 0 ? idx : 0,
-          procId: pid,
-          nome: form.nome.value.trim(),
-          az: form.azienda.value.trim(),
-          tel: form.tel.value.trim(),
-          email: form.email.value.trim(),
-          cat: form.interesse.value,
-          stato: 'Nuovo',
-          note: form.note.value.trim(),
-          data: data,
-          ora: ora,
-          daProcacciatore: true,
-          pnome: pnome
-        }
-      })
-    })
-
-    if (!res.ok) throw new Error('Errore ' + res.status)
-
-    // Invia notifica email a Leone Consulting via Edge Function
-    fetch(`${SUPA_URL}/functions/v1/notify-lead`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        pnome: pnome,
-        nome: form.nome.value.trim(),
-        tel: form.tel.value.trim(),
-        email: form.email.value.trim(),
-        interesse: form.interesse.value,
-        data: data, ora: ora
-      })
-    }).catch(() => {}) // Non bloccare se fallisce
-
-    document.getElementById('form-area').classList.add('hidden')
-    document.getElementById('success-area').classList.remove('hidden')
-
-  } catch (err) {
-    errEl.style.display = 'block'
-    btn.textContent = 'Invia lead'
-    btn.disabled = false
+  // Attribuzione procacciatore dall'URL (?pid=...&pnome=...)
+  const params = new URLSearchParams(location.search);
+  const pid = params.get('pid') || '';
+  const pnome = params.get('pnome') || '';
+  if (pnome) {
+    document.getElementById('attr-box').style.display = 'flex';
+    document.getElementById('attr-nome').textContent = pnome;
+    const ini = pnome.trim().split(/\s+/).map(w => w[0]).slice(0,2).join('').toUpperCase();
+    document.getElementById('attr-ini').textContent = ini || 'LC';
   }
-}
-</script>
-</body>
-</html>      <h2>Lead inviato!</h2>
-      <p>Leone Consulting ha ricevuto le informazioni.<br>Grazie per la segnalazione!</p>
-    </div>
-  </div>
-</div>
-<script>
-const SUPA_URL = 'https://uljdbdbkiulbcquuhfwd.supabase.co'
-const SUPA_KEY = 'sb_publishable_f2I0NBiYOi_1aWm5ACybhA_gFYsWpAB'
 
-const params = new URLSearchParams(window.location.search)
-const pid = params.get('pid') || ''
-const pnome = decodeURIComponent(params.get('pnome') || 'Procacciatore')
+  function err(t){ const e=document.getElementById('msg-err'); e.textContent=t; e.style.display='block'; }
+  function clearErr(){ const e=document.getElementById('msg-err'); e.style.display='none'; }
 
-document.getElementById('agente-box').textContent = 'Procacciatore: ' + pnome
+  async function inviaLead(){
+    clearErr();
+    const nome=document.getElementById('f-nome').value.trim();
+    const tel=document.getElementById('f-tel').value.trim();
+    const email=document.getElementById('f-email').value.trim();
+    const cat=document.getElementById('f-cat').value;
+    const az=document.getElementById('f-az').value.trim();
+    const note=document.getElementById('f-note').value.trim();
 
-async function invia(e) {
-  e.preventDefault()
-  const btn = document.getElementById('btn-invia')
-  const errEl = document.getElementById('err-msg')
-  errEl.style.display = 'none'
-  btn.textContent = 'Invio in corso...'
-  btn.disabled = true
+    if(!nome){ err('Inserisci nome e cognome del contatto.'); return; }
+    if(!tel){ err('Inserisci un numero di telefono.'); return; }
+    if(!cat){ err('Seleziona l\u0027area di interesse.'); return; }
 
-  const form = e.target
-  const ora = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'})
-  const data = new Date().toLocaleDateString('it-IT')
+    const btn=document.getElementById('btn-invia');
+    btn.disabled=true; btn.textContent='Invio in corso…';
 
-  try {
-    // Trova indice procacciatore
-    const rProcs = await fetch(`${SUPA_URL}/rest/v1/procacciatori?select=id`, {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    })
-    const procs = await rProcs.json()
-    const idx = procs.findIndex(p => p.id === pid)
+    const now=new Date();
+    const obj={
+      nome, tel, email, cat, az, note,
+      stato:'Nuovo',
+      pid, pnome,
+      data: now.toLocaleDateString('it-IT'),
+      ora: now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}),
+      fonte:'Lead form'
+    };
 
-    // Salva lead su Supabase
-    const res = await fetch(`${SUPA_URL}/rest/v1/leads`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({
-        data: {
-          pidx: idx >= 0 ? idx : 0,
-          procId: pid,
-          nome: form.nome.value.trim(),
-          az: form.azienda.value.trim(),
-          tel: form.tel.value.trim(),
-          email: form.email.value.trim(),
-          cat: form.interesse.value,
-          stato: 'Nuovo',
-          note: form.note.value.trim(),
-          data: data,
-          ora: ora,
-          daProcacciatore: true,
-          pnome: pnome
-        }
-      })
-    })
-
-    if (!res.ok) throw new Error('Errore ' + res.status)
-
-    // Invia notifica email a Leone Consulting via Edge Function
-    fetch(`${SUPA_URL}/functions/v1/notify-lead`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        pnome: pnome,
-        nome: form.nome.value.trim(),
-        tel: form.tel.value.trim(),
-        email: form.email.value.trim(),
-        interesse: form.interesse.value,
-        data: data, ora: ora
-      })
-    }).catch(() => {}) // Non bloccare se fallisce
-
-    document.getElementById('form-area').classList.add('hidden')
-    document.getElementById('success-area').classList.remove('hidden')
-
-  } catch (err) {
-    errEl.style.display = 'block'
-    btn.textContent = 'Invia lead'
-    btn.disabled = false
+    try{
+      const { error } = await db.from('leads').insert({ data: obj });
+      if(error) throw error;
+      document.getElementById('form-view').style.display='none';
+      document.getElementById('done-view').classList.add('show');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }catch(e){
+      btn.disabled=false; btn.textContent='Invia contatto';
+      err('Non è stato possibile inviare il contatto: '+(e.message||e)+'. Riprova tra poco.');
+    }
   }
-}
+
+  function resetForm(){
+    ['f-nome','f-tel','f-email','f-az','f-note'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f-cat').value='';
+    clearErr();
+    const btn=document.getElementById('btn-invia'); btn.disabled=false; btn.textContent='Invia contatto';
+    document.getElementById('done-view').classList.remove('show');
+    document.getElementById('form-view').style.display='block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
 </script>
 </body>
 </html>
